@@ -16,6 +16,29 @@
 
 
 ---
+## 🏗️ 클래스 구조
+
+```
+MedicalAlert (interface)
+│   + getSchedule(LocalTime) : String
+│   + calculateDose(double) : double
+│
+└── Insulin (abstract) ── implements MedicalAlert
+        # brandName : String
+        # intervalHours : int
+        + getBrandName() : String
+        │
+        ├── LongActingInsulin   — 캐닌슐린, 12h 간격, dose = weight × 0.5
+        └── ShortActingInsulin  — 휴멀린,   6h 간격, dose = weight × 0.3
+
+MedicalDangerException (extends Exception)
+└── dose > 8.0 units 시 throw
+
+DcareSystem (main)
+└── Scanner 입력 → Insulin 다형성 객체 생성 → 계산 → history 저장
+```
+
+---
 
 ## 🚀 D-Care 시스템 주요 기능 요약
 
