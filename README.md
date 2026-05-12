@@ -194,3 +194,10 @@ if (input.equalsIgnoreCase("now")) {
     lastTime = LocalTime.parse(input); // 기존처럼 수동 입력도 지원
 }
 ```
+---
+🔮 향후 개선 아이디어
+
+ 인슐린 종류 추가 (혼합형 등)
+ 혈당 수치 입력 및 분석 기능
+ 투여 히스토리 파일 저장 (history.txt)
+ GUI 버전 (JavaFX)
