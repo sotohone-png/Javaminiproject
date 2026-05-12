@@ -91,15 +91,12 @@
 
 # 1.기본 작동 화면
 
-![Honeycam 2026-05-12 11-59-51.gif](attachment:6c776a03-b66f-41a0-82e4-b57b052c3dc6:Honeycam_2026-05-12_11-59-51.gif)
+<img width="586" height="647" alt="Honeycam 2026-05-12 11-59-51" src="https://github.com/user-attachments/assets/7f8a253a-9cd2-4de3-9ea0-1db655672ab1" />
+
 
 # 2.오류 발생 화면
 
-![Honeycam 2026-05-12 11-54-59.gif](attachment:1ba9ebf1-fa8d-42b6-894d-3479bc02f9e4:Honeycam_2026-05-12_11-54-59.gif)
 
-![Honeycam 2026-05-12 11-57-20.gif](attachment:36fb6ef5-88ca-4f2d-961e-65eada1d180b:Honeycam_2026-05-12_11-57-20.gif)
-
-![Honeycam 2026-05-12 11-58-23.gif](attachment:b28366e6-7feb-4aa9-bb4a-dc8dd4861e5a:Honeycam_2026-05-12_11-58-23.gif)
 
 ---
 
