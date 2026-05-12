@@ -82,39 +82,33 @@
 - **Eclipse / IntelliJ**: 자바 개발 환경에서 코드 작성, 디버깅 및 컴파일을 수행했습니다.
 
 ---
+# 🐾 D-Care: Diabetes Dog Care System
 
-# Class 
+## 📊 1. System Architecture (클래스 다이어그램)
+
 ```mermaid
 classDiagram
     class MedicalAlert {
         <<interface>>
-        +getSchedule(LocalTime lastShotTime) String
-        +calculateDose(double weight) double
+        +getSchedule(LocalTime) String
+        +calculateDose(double) double
     }
-
     class Insulin {
         <<abstract>>
         #String brandName
         #int intervalHours
-        +getBrandName() String
     }
-
     class LongActingInsulin {
-        +LongActingInsulin()
         +getSchedule(LocalTime) String
         +calculateDose(double) double
     }
-
     class ShortActingInsulin {
-        +ShortActingInsulin()
         +getSchedule(LocalTime) String
         +calculateDose(double) double
     }
-
     class MedicalDangerException {
         +MedicalDangerException(String msg)
     }
-
     class DcareSystem {
         -List~String~ history
         +main(String[] args) void
@@ -127,7 +121,6 @@ classDiagram
     DcareSystem ..> Insulin : uses
     DcareSystem ..> MedicalDangerException : throws
 
----
 
 
 # 1.기본 작동 화면
