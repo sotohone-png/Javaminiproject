@@ -126,7 +126,10 @@ classDiagram
     Exception <|-- MedicalDangerException : extends
     DcareSystem ..> Insulin : uses
     DcareSystem ..> MedicalDangerException : throws
+
 ---
+
+
 # 1.기본 작동 화면
 
 <img width="586" height="647" alt="Honeycam 2026-05-12 11-59-51" src="https://github.com/user-attachments/assets/7f8a253a-9cd2-4de3-9ea0-1db655672ab1" />
