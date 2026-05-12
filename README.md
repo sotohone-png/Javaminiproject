@@ -1,13 +1,21 @@
 ## 강아지 인슐린 투여 시간 관리 프로그램
 
-📌 프로젝트 개요
-당뇨를 앓고 있는 반려견의 인슐린 투여를 체계적으로 관리하기 위한 Java 콘솔 애플리케이션입니다.
-인슐린 종류(지속성 / 속효성)를 선택하면 몸무게 기반 권장 용량과 다음 투여 시간을 자동 계산하고,
-위험 수치 초과 시 예외를 발생시켜 보호자에게 즉시 경고합니다.
-학습 목표: Java OOP 3대 핵심 개념을 실제 도메인에 적용
-개념적용 위치InterfaceMedicalAlert — 모든 의료 알림의 공통 규격 정의InheritanceInsulin (추상) → LongActingInsulin / ShortActingInsulinExceptionMedicalDangerException — 고용량 투여 위험 감지
+## 📌 프로젝트 개요
 
---
+당뇨를 앓고 있는 반려견의 인슐린 투여를 체계적으로 관리하기 위한 Java 콘솔 애플리케이션입니다.  
+인슐린 종류(지속성 / 속효성)를 선택하면 몸무게 기반 권장 용량과 다음 투여 시간을 자동 계산하고,  
+위험 수치 초과 시 예외를 발생시켜 보호자에게 즉시 경고합니다.
+
+**학습 목표**: Java OOP 3대 핵심 개념을 실제 도메인에 적용
+
+| 개념 | 적용 위치 |
+|------|-----------|
+| Interface | `MedicalAlert` — 모든 의료 알림의 공통 규격 정의 |
+| Inheritance | `Insulin` (추상) → `LongActingInsulin` / `ShortActingInsulin` |
+| Exception | `MedicalDangerException` — 고용량 투여 위험 감지 |
+
+
+---
 
 ## 🚀 D-Care 시스템 주요 기능 요약
 
