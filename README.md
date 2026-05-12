@@ -84,8 +84,48 @@
 ---
 
 # 클래스 다이어그램
+classDiagram
+    class MedicalAlert {
+        <<interface>>
+        +getSchedule(LocalTime lastShotTime) String
+        +calculateDose(double weight) double
+    }
 
-![화면 캡처 2026-05-12 113608.png](attachment:23597138-35b9-4184-943f-37dc0ce4bb5b:화면_캡처_2026-05-12_113608.png)
+    class Insulin {
+        <<abstract>>
+        #String brandName
+        #int intervalHours
+        +getBrandName() String
+    }
+
+    class LongActingInsulin {
+        +LongActingInsulin()
+        +getSchedule(LocalTime) String
+        +calculateDose(double) double
+    }
+
+    class ShortActingInsulin {
+        +ShortActingInsulin()
+        +getSchedule(LocalTime) String
+        +calculateDose(double) double
+    }
+
+    class MedicalDangerException {
+        +MedicalDangerException(String msg)
+    }
+
+    class DcareSystem {
+        -List~String~ history
+        +main(String[] args) void
+    }
+
+    MedicalAlert <|.. Insulin : implements
+    Insulin <|-- LongActingInsulin : extends
+    Insulin <|-- ShortActingInsulin : extends
+    Exception <|-- MedicalDangerException : extends
+    DcareSystem ..> Insulin : uses
+    DcareSystem ..> MedicalDangerException : throws
+
 
 ---
 
