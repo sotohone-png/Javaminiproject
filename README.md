@@ -82,10 +82,7 @@
 - **Eclipse / IntelliJ**: 자바 개발 환경에서 코드 작성, 디버깅 및 컴파일을 수행했습니다.
 
 ---
-# 🐾 D-Care: Diabetes Dog Care System
-
-## 📊 1. System Architecture (클래스 다이어그램)
-
+# 클래스 다이어그램
 ```mermaid
 classDiagram
     class MedicalAlert {
@@ -120,6 +117,8 @@ classDiagram
     Exception <|-- MedicalDangerException : extends
     DcareSystem ..> Insulin : uses
     DcareSystem ..> MedicalDangerException : throws
+```
+---
 
 
 
