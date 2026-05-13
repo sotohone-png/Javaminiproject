@@ -72,7 +72,7 @@ Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 
 
 
-🏗 클래스 구조 (Class Architecture)
+### 🏗 클래스 구조 (Class Architecture)
 
 프로젝트는 역할에 따라 다음과 같이 구분됩니다.
 
