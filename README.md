@@ -76,35 +76,14 @@ Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 
 프로젝트는 역할에 따라 다음과 같이 구분됩니다.
 
-구분
-클래스명
-역할 설명
-Domain
-Dog
-반려견의 이름, 몸무게, 최근 투여 시간을 관리하는 엔티티
-Logic
-Insulin, MedicalAlert
-인슐린 투여량 계산 및 스케줄링을 위한 추상 클래스 및 인터페이스
-Service
-DcareService, HistoryService
-비즈니스 로직 처리 및 통계 데이터 가공
-Persistence
-DataManager
-파일 시스템 기반의 데이터 로드 및 저장
-Presentation
-DcareApp, DcareSystem
-각각 GUI(Swing)와 CLI 환경의 사용자 인터페이스 제공
-Exception
-MedicalDangerException
-의료적 위험 상황 발생 시 처리를 위한 사용자 정의 예외
-
-
-
-
-
-
-
-🖥 실행 방법
+| 구분 | 클래스명 | 역할 설명 |
+| --- | --- | --- |
+| **Domain** | `Dog` | 반려견의 이름, 몸무게, 최근 투여 시간을 관리하는 엔티티 |
+| **Logic** | `Insulin`, `MedicalAlert` | 인슐린 투여량 계산 및 스케줄링을 위한 추상 클래스 및 인터페이스 |
+| **Service** | `DcareService`, `HistoryService` | 비즈니스 로직 처리 및 통계 데이터 가공 |
+| **Persistence** | `DataManager` | 파일 시스템 기반의 데이터 로드 및 저장 |
+| **Presentation** | `DcareApp`, `DcareSystem` | 각각 GUI(Swing)와 CLI 환경의 사용자 인터페이스 제공 |
+| **Exception** | `MedicalDangerException` | 의료적 위험 상황 발생 시 처리를 위한 사용자 정의 예외 |
 
 
 
