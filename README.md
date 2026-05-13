@@ -94,46 +94,9 @@ D-Care는 당뇨 관리가 필요한 반려견들을 위한 스마트 인슐린 
 
 # 수정 내용
 
-### 🕒 주사 시간 입력 로직의 진화 (UX 개선)
 
-### 1. Before: 엄격한 수동 입력 방식
 
-사용자가 반드시 시계나 휴대폰을 확인하고, 정해진 형식(`HH:mm`)에 맞춰 직접 타이핑해야 했습니다.
 
-- **동작 방식:** 오직 `LocalTime.parse()`만 수행.
-- **사용자 입력:** `08:30` (직접 시계 확인 후 입력)
-- **문제점:** `:` 기호를 빠뜨리거나 한 자릿수만 입력하면 프로그램이 예외를 발생시키며 멈추거나 재입력을 요구함.
-
----
-
-### 2. After: 'now' 키워드를 활용한 지능형 입력
-
-현재 시각을 시스템에서 즉시 가져오는 기능을 추가하여 편의성을 극대화했습니다.
-
-- **동작 방식:** 입력값이 `now`인지 먼저 체크 후, 맞으면 `LocalTime.now()` 실행.
-- **사용자 입력:** `now` (타이핑 3번으로 끝)
-- **장점:** 주사 직후 바로 기록하는 사용자의 번거로움을 90% 이상 줄여주며, 오타로 인한 예외 발생 확률이 낮아짐.
-
-```java
-// [Before] 오직 형식에 맞는 문자열만 가능
-System.out.print("▶ 마지막 주사 시간: ");
-String input = sc.nextLine();
-LocalTime lastTime = LocalTime.parse(input); // 형식 틀리면 바로 Exception!
-
-// --------------------------------------------------
-
-// [After] 키워드 기반 유연한 입력 처리
-System.out.print("▶ 마지막 주사 시간 (HH:mm 또는 'now'): ");
-String input = sc.nextLine();
-
-LocalTime lastTime;
-if (input.equalsIgnoreCase("now")) {
-    lastTime = LocalTime.now(); // 시스템 현재 시간 자동 할당
-    System.out.println("현재 시간(" + lastTime.format(DateTimeFormatter.ofPattern("HH:mm")) + ")으로 설정되었습니다.");
-} else {
-    lastTime = LocalTime.parse(input); // 기존처럼 수동 입력도 지원
-}
-```
 ---
 🔮 향후 개선 아이디어
 
