@@ -1,6 +1,7 @@
 package dcare;
 
 import java.time.LocalTime;
+import java.time.Duration;
 import java.util.*;
 
 public class DcareService {
@@ -46,23 +47,50 @@ public class DcareService {
         save();
     }
 
-    public Dog addInjection(Dog dog, Insulin insulin, double weight, String timeStr) {
+    public Dog addInjection(Dog dog, Insulin insulin, double weight, String timeStr)
+            throws MedicalDangerException {
         Dog target = dog;
 
-        // 몸무게가 다르면 → 새 강아지로 등록 (이름 뒤 숫자 자동 부여)
+        // 몸무게가 다르면 → 새 강아지로 등록
         if (dog.weight != weight) {
-            // addDog()이 중복 이름 처리(숫자 부여)를 해주므로 그대로 활용
             addDog(dog.name, weight);
-            // 방금 추가된 강아지(마지막 항목)를 target으로 설정
             target = dogList.get(dogList.size() - 1);
         }
 
         double dose = insulin.calculateDose(target.weight);
+
+        // ① 최대 용량 초과 → 즉시 예외 (투여 차단)
+        if (dose > insulin.getMaxDose()) {
+            throw new MedicalDangerException(
+                String.format("⛔ 위험: 계산된 용량 %.1f units가 최대 허용량 %.1f units를 초과합니다!\n" +
+                              "투여를 중단하고 수의사에게 문의하세요.", dose, insulin.getMaxDose()));
+        }
+
+        // ② 투여 간격 미달 → 경고 메시지 포함 예외 (호출부에서 확인 후 강행 가능)
+        if (target.lastInjectionTime != null) {
+            long minutesSinceLast = java.time.Duration.between(
+                target.lastInjectionTime, LocalTime.parse(timeStr,
+                java.time.format.DateTimeFormatter.ofPattern("HH:mm"))).toMinutes();
+            // 자정을 넘긴 경우 보정
+            if (minutesSinceLast < 0) minutesSinceLast += 24 * 60;
+            long minRequired = insulin.getMinIntervalHours() * 60L;
+            if (minutesSinceLast < minRequired) {
+                long remaining = minRequired - minutesSinceLast;
+                throw new MedicalDangerException(
+                    String.format("⚠️ 경고: 마지막 투여 후 %d분밖에 지나지 않았습니다.\n" +
+                                  "권장 간격: %d시간 이상 / 남은 시간: %d분\n" +
+                                  "그래도 투여하시겠습니까?",
+                                  minutesSinceLast, insulin.getMinIntervalHours(), remaining));
+            }
+        }
+
         String record = String.format("[%s] %s: %.1f units (%s)",
                         timeStr, target.name, dose, insulin.getBrandName());
         history.add(record);
+        target.lastInjectionTime = LocalTime.parse(timeStr,
+            java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
         save();
-        return target; // 실제 투여된 강아지 반환 (UI에서 이름 확인용)
+        return target;
     }
 
     public void fixDuplicateNamesAndSyncHistory() {

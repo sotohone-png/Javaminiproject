@@ -298,12 +298,22 @@ public class DcareApp extends JFrame {
             double w = Double.parseDouble(weightField.getText().trim());
             boolean isLong = (longBtn != null && longBtn.isSelected());
             double factor = isLong ? 0.5 : 0.3;
+            double maxDose = isLong ? 10.0 : 6.0;
+            double dose = w * factor;
             String dogName = selectedDog != null ? selectedDog.name : "?";
             doseCalcLabel.setText("예상 투여량  —  " + dogName + " (" + w + "kg) × " + factor);
-            dosePreviewLabel.setText(String.format("%.1f units", w * factor));
+            if (dose > maxDose) {
+                // 최대 용량 초과 → 빨간색 경고
+                dosePreviewLabel.setText(String.format("%.1f units  ⚠️ 최대 %.1f 초과!", dose, maxDose));
+                dosePreviewLabel.setForeground(RED_TEXT);
+            } else {
+                dosePreviewLabel.setText(String.format("%.1f units", dose));
+                dosePreviewLabel.setForeground(BLUE_TEXT);
+            }
         } catch (Exception ex) {
             doseCalcLabel.setText("예상 투여량");
             dosePreviewLabel.setText("— units");
+            dosePreviewLabel.setForeground(BLUE_TEXT);
         }
     }
 
@@ -315,15 +325,58 @@ public class DcareApp extends JFrame {
             String time = tStr.equalsIgnoreCase("now") ? LocalTime.now().format(TIME_FMT) : tStr;
             boolean isLong = (longBtn != null && longBtn.isSelected());
             Insulin insulin = isLong ? new LongActingInsulin() : new ShortActingInsulin();
-            Dog actual = service.addInjection(selectedDog, insulin, weight, time);
-            refreshAll();
-            if (!actual.name.equals(selectedDog.name)) {
-                showInfo("⚠️ 몸무게가 달라 새 반려견으로 등록되었습니다.\n👉 [" + actual.name + "] (" + actual.weight + "kg) 으로 기록 완료!");
-                selectedDog = actual;
-            } else {
-                showInfo("✅ " + actual.name + " 투여 기록이 완료되었습니다!");
+
+            // 먼저 용량만 계산해서 최대 용량 초과 여부를 미리 확인
+            double previewDose = insulin.calculateDose(weight);
+            if (previewDose > insulin.getMaxDose()) {
+                // 최대 용량 초과 → 무조건 차단, 팝업만 표시
+                showDangerAlert(String.format(
+                    "⛔  위험: 계산 용량 %.1f units가 최대 허용량 %.1f units 초과!\n투여를 중단하고 수의사에게 문의하세요.",
+                    previewDose, insulin.getMaxDose()));
+                return; // 저장하지 않음
+            }
+
+            try {
+                Dog actual = service.addInjection(selectedDog, insulin, weight, time);
+                refreshAll();
+                if (!actual.name.equals(selectedDog.name)) {
+                    showInfo("⚠️ 몸무게가 달라 새 반려견으로 등록되었습니다.\n👉 [" + actual.name + "] (" + actual.weight + "kg) 으로 기록 완료!");
+                    selectedDog = actual;
+                } else {
+                    showInfo("✅ " + actual.name + " 투여 기록이 완료되었습니다!");
+                }
+            } catch (MedicalDangerException mde) {
+                // 간격 경고 → 사용자가 선택 (예/아니오)
+                boolean proceed = showDangerConfirm(mde.getMessage());
+                if (proceed) {
+                    // 강행: 검증을 우회해 직접 기록만 저장
+                    forceSave(selectedDog, insulin, weight, time);
+                }
             }
         } catch (Exception e) { showAlert("⚠️ 입력 값을 다시 확인해 주세요."); }
+    }
+
+    /** 검증을 우회하고 강제 저장 (간격 경고 무시 시) */
+    private void forceSave(Dog dog, Insulin insulin, double weight, String time) {
+        try {
+            double dose = insulin.calculateDose(weight);
+            String record = String.format("[%s] %s: %.1f units (%s) ⚠️강행",
+                            time, dog.name, dose, insulin.getBrandName());
+            service.getHistory().add(record);
+            dog.lastInjectionTime = LocalTime.parse(time, TIME_FMT);
+            service.save();
+            refreshAll();
+            showInfo("⚠️ 경고를 무시하고 투여 기록을 저장했습니다.");
+        } catch (Exception ex) { showAlert("저장 중 오류가 발생했습니다."); }
+    }
+
+    private void showDangerAlert(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "🚨 위험 경고", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private boolean showDangerConfirm(String msg) {
+        return JOptionPane.showConfirmDialog(this, msg, "⚠️ 투여 경고",
+            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
     }
 
     // ══════════════════════════════════════════════════════════════

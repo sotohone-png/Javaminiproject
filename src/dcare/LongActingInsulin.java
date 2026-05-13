@@ -14,4 +14,8 @@ public class LongActingInsulin extends Insulin {
     public String getDescription() {
         return "ℹ️ 지속성 인슐린: 12시간 간격 권장 (하루 2회 투여용)";
     }
+    @Override
+    public double getMaxDose() { return 10.0; } // 최대 10 units
+    @Override
+    public int getMinIntervalHours() { return 10; } // 10시간 이내 재투여 경고
 }
