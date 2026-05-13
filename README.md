@@ -1,101 +1,112 @@
-[제목 없는 다이어그램.drawio (1).html](https://github.com/user-attachments/files/27694917/drawio.1.html)## 강아지 인슐린 투여 시간 관리 프로그램
+🐾 D-Care: 스마트 다견 관리 시스템
 
-## 📌 프로젝트 개요
-
-당뇨를 앓고 있는 반려견의 인슐린 투여를 체계적으로 관리하기 위한 Java 콘솔 애플리케이션입니다.  
-인슐린 종류(지속성 / 속효성)를 선택하면 몸무게 기반 권장 용량과 다음 투여 시간을 자동 계산하고,  
-위험 수치 초과 시 예외를 발생시켜 보호자에게 즉시 경고합니다.
-
-**학습 목표**: Java OOP 3대 핵심 개념을 실제 도메인에 적용
-
-| 개념 | 적용 위치 |
-|------|-----------|
-| Interface | `MedicalAlert` — 모든 의료 알림의 공통 규격 정의 |
-| Inheritance | `Insulin` (추상) → `LongActingInsulin` / `ShortActingInsulin` |
-| Exception | `MedicalDangerException` — 고용량 투여 위험 감지 |
+D-Care는 당뇨 관리가 필요한 반려견들을 위한 스마트 인슐린 투여 관리 솔루션입니다. 다견 가정에서도 효율적으로 반려견별 투여 기록을 관리하고 통계를 확인할 수 있도록 설계되었습니다.
 
 
----
-## 🏗️ 클래스 구조
 
-```
-MedicalAlert (interface)
-│   + getSchedule(LocalTime) : String
-│   + calculateDose(double) : double
-│
-└── Insulin (abstract) ── implements MedicalAlert
-        # brandName : String
-        # intervalHours : int
-        + getBrandName() : String
-        │
-        ├── LongActingInsulin   — 캐닌슐린, 12h 간격, dose = weight × 0.5
-        └── ShortActingInsulin  — 휴멀린,   6h 간격, dose = weight × 0.3
 
-MedicalDangerException (extends Exception)
-└── dose > 8.0 units 시 throw
+🚀 프로젝트 개요
 
-DcareSystem (main)
-└── Scanner 입력 → Insulin 다형성 객체 생성 → 계산 → history 저장
-```
+이 프로젝트는 반려견의 몸무게와 인슐린 종류에 따른 최적의 투여량을 계산하고, 투여 시간을 기록하여 체계적인 건강 관리를 돕습니다. GUI(Swing)와 CLI(Console) 환경을 모두 지원하여 사용자의 편의성을 높였습니다.
 
----
 
-## 🚀 D-Care 시스템 주요 기능 요약
 
-### 1. 동적 객체 생성 및 관리 (다형성 활용)
 
-- **기능:** 사용자가 선택한 인슐린 종류(지속성/속효성)에 따라 실시간으로 적절한 객체를 생성합니다.
-- **기술 포인트:** `Insulin` 부모 클래스 타입을 사용하여, 서로 다른 계산 공식(Override)을 가진 자식 객체들을 하나의 로직에서 유연하게 관리합니다.
+🛠 기술 스택
 
-### 2. 정밀 용량 계산 엔진 (Medical Calculation)
+•
+Language: Java 11+
 
-- **기능:** 입력된 강아지의 몸무게와 선택된 인슐린의 계수를 결합하여 최적의 투여 유닛(Unit)을 산출합니다.
-- **기술 포인트:** 인터페이스(`MedicalAlert`)에 정의된 추상 메서드를 각 클래스 특성에 맞게 구현하여 데이터의 일관성을 확보했습니다.
+•
+UI Framework: Java Swing (GUI), Console (CLI)
 
-### 3. 지능형 스케줄링 가이드 (Time Tracking)
+•
+Data Storage: Text-based File System (dogs.txt, history.txt)
 
-- **기능:** 마지막 투여 시간을 기준으로 차기 주사 권장 시간을 자동 계산하여 안내합니다.
-- **기술 포인트:** `java.time.LocalTime` API를 활용하여 24시간 체계 내의 시간 연산을 정확하게 수행하며, `now` 키워드를 통한 현재 시간 자동 매핑(Mapping) 기능을 제공합니다.
+•
+Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 
-### 4. 2중 안전 예외 처리 시스템 (Double Safeguard)
 
-- **기능:** 시스템 다운 방지 및 의료 사고 예방을 위한 단계별 예외 처리를 수행합니다.
-    - **1단계 (형식 검증):** 문자 입력, 시간 형식 오류 등 데이터 타입 불일치를 `try-catch`로 차단.
-    - **2단계 (논리 검증):** 몸무게가 0이하인 경우나, 계산된 용량이 치사량을 초과하는 경우 사용자 정의 예외(`MedicalDangerException`)를 발생시켜 처방 중단.
 
-### 5. 투여 이력 로그 관리 (History Logging)
 
-- **기능:** 프로그램 실행 중 발생한 모든 계산 결과를 리스트에 누적 저장합니다.
-- **기술 포인트:** `ArrayList` 컬렉션을 활용하여 가변적인 데이터를 수집하고, 프로그램 종료 시 일괄적으로 히스토리를 출력하여 보호자의 복약 기록 관리를 돕습니다.
+📑 시스템 주요 기능
 
----
+1. 반려견 관리
 
-### 🛠 D-Care 프로젝트 기술 스택 (Tech Stack)
+•
+반려견 등록, 삭제 및 목록 조회
 
-### 1. Core Language & Runtime
+•
+중복 이름 방지를 위한 자동 넘버링 기능
 
-- **Java SE 8+**: 최신 날짜/시간 API와 컬렉션 프레임워크를 활용하기 위해 자바 표준 에디션을 사용했습니다.
-- **Object-Oriented Programming (OOP)**: 프로그램을 단순히 순차적으로 실행하는 것이 아니라, 객체 간의 협력 구조로 설계했습니다.
+•
+몸무게 변동에 따른 데이터 동기화
 
-### 2. 핵심 적용 기술 (Core Java Skills)
+2. 인슐린 투여 관리
 
-- **Interface & Abstract Class**:
-    - `MedicalAlert` 인터페이스로 서비스 규격을 정의하고, `Insulin` 추상 클래스로 공통 속성을 캡슐화했습니다.
-- **Polymorphism (다형성)**:
-    - 부모 타입 참조 변수를 통해 `LongActing`, `ShortActing` 객체를 동적으로 제어하여 확장성을 확보했습니다.
-- **Exception Handling (예외 처리)**:
-    - `try-catch-finally` 구조와 `throw` 키워드를 사용한 사용자 정의 예외(`MedicalDangerException`) 처리로 시스템 안정성을 강화했습니다.
-- **Java Collection Framework**:
-    - `ArrayList`를 활용하여 정해지지 않은 수의 투여 데이터를 메모리에 저장하고 관리하는 로직을 구현했습니다.
+•
+지속성 인슐린(캐닌슐린): 12시간 간격, 0.5 units/kg 기준 투여량 계산
 
-### 3. Standard Library (표준 라이브러리)
+•
+속효성 인슐린(휴멀린): 6시간 간격, 0.3 units/kg 기준 투여량 계산
 
-- **java.time (Date/Time API)**: `LocalTime`, `DateTimeFormatter`를 사용하여 정밀한 시간 연산 및 포맷팅을 수행했습니다.
-- **java.util (Scanner & Collections)**: 사용자 입출력 제어 및 데이터 구조 관리를 위해 사용했습니다.
+•
+실시간 투여 시간 기록 및 다음 투여 예정 시간 안내
 
-### 4. Development Environment (IDE)
+3. 데이터 분석 및 통계
 
-- **Eclipse / IntelliJ**: 자바 개발 환경에서 코드 작성, 디버깅 및 컴파일을 수행했습니다.
+•
+반려견별 누적 투여 횟수 및 총 투여량 리포트 생성
+
+•
+과거 기록(삭제된 반려견 포함)에 대한 상세 로그 조회 및 관리
+
+4. 데이터 지속성
+
+•
+프로그램 종료 시 자동/선택적 데이터 저장
+
+•
+실행 시 기존 데이터 로드 및 정규화(Normalization)
+
+
+
+
+🏗 클래스 구조 (Class Architecture)
+
+프로젝트는 역할에 따라 다음과 같이 구분됩니다.
+
+구분
+클래스명
+역할 설명
+Domain
+Dog
+반려견의 이름, 몸무게, 최근 투여 시간을 관리하는 엔티티
+Logic
+Insulin, MedicalAlert
+인슐린 투여량 계산 및 스케줄링을 위한 추상 클래스 및 인터페이스
+Service
+DcareService, HistoryService
+비즈니스 로직 처리 및 통계 데이터 가공
+Persistence
+DataManager
+파일 시스템 기반의 데이터 로드 및 저장
+Presentation
+DcareApp, DcareSystem
+각각 GUI(Swing)와 CLI 환경의 사용자 인터페이스 제공
+Exception
+MedicalDangerException
+의료적 위험 상황 발생 시 처리를 위한 사용자 정의 예외
+
+
+
+
+
+
+
+🖥 실행 방법
+
+
 
 ---
 # 클래스 다이어그램
