@@ -101,38 +101,91 @@ DcareSystem (main)
 # 클래스 다이어그램
 ```mermaid
 classDiagram
+  direction TB
+
+  %% [그룹 1: 도메인 모델 - 시스템의 핵심 데이터 객체]
+  namespace Domain_Models {
     class MedicalAlert {
-        <<interface>>
-        +getSchedule(LocalTime) String
-        +calculateDose(double) double
+      <<interface>>
+      +getSchedule(lastShotTime) String
+      +calculateDose(weight) double
     }
     class Insulin {
-        <<abstract>>
-        #String brandName
-        #int intervalHours
+      <<abstract>>
+      #brandName : String
+      #intervalHours : int
     }
-    class LongActingInsulin {
-        +getSchedule(LocalTime) String
-        +calculateDose(double) double
+    class LongActingInsulin
+    class ShortActingInsulin
+    class Dog {
+      +name : String
+      +weight : double
+      +lastInjectionTime : LocalTime
     }
-    class ShortActingInsulin {
-        +getSchedule(LocalTime) String
-        +calculateDose(double) double
+  }
+
+  %% [그룹 2: 서비스 및 데이터 계층 - 로직 처리 및 저장]
+  namespace Logic_Services {
+    class DcareService {
+      -dogList : List~Dog~
+      -history : List~String~
+      +addInjection(dog, insulin, weight, time) Dog
+      +save() void
+      +refreshData() void
     }
-    class MedicalDangerException {
-        +MedicalDangerException(String msg)
+    class DataManager {
+      +saveData(dogList, history) void
+      +loadData(dogList, history) void
+    }
+    class HistoryService {
+      +showDetailedStats() void
+      +manageHistoryMenu() boolean
+    }
+  }
+
+  %% [그룹 3: 프리젠테이션 계층 - 사용자 인터페이스]
+  namespace Presentation_UI {
+    class DcareApp {
+      <<GUI - Swing>>
+      -service : DcareService
+      -selectedDog : Dog
+      -buildTabs() JTabbedPane
+      -handleSave() void
     }
     class DcareSystem {
-        -List~String~ history
-        +main(String[] args) void
+      <<Console>>
+      -processInjection() void
+      -manageDogs() void
     }
+    class DcareLauncher {
+      +main() void
+    }
+  }
 
-    MedicalAlert <|.. Insulin : implements
-    Insulin <|-- LongActingInsulin : extends
-    Insulin <|-- ShortActingInsulin : extends
-    Exception <|-- MedicalDangerException : extends
-    DcareSystem ..> Insulin : uses
-    DcareSystem ..> MedicalDangerException : throws
+  %% --- 관계 정의 (관계의 성격에 따라 선 모양을 구분) ---
+
+  %% 1. 상속 및 구현 (상단 배치)
+  MedicalAlert <|.. Insulin : implements
+  Insulin <|-- LongActingInsulin : extends
+  Insulin <|-- ShortActingInsulin : extends
+
+  %% 2. 데이터 관리 및 서비스 관계
+  DcareService o-- Dog : manages_list
+  DcareService ..> DataManager : delegates_IO
+  DcareService ..> Insulin : uses_for_calc
+
+  %% 3. UI와 서비스 간의 연결 (핵심 흐름)
+  DcareApp o-- DcareService : has_business_logic
+  DcareApp ..> Dog : displays
+  DcareApp ..> LongActingInsulin : instantiates
+  DcareApp ..> ShortActingInsulin : instantiates
+
+  DcareSystem ..> DcareService : uses (implicit)
+  DcareSystem ..> HistoryService : uses
+  DcareSystem ..> DataManager : uses
+
+  %% 4. 실행 시작점
+  DcareLauncher ..> DcareApp : launches_GUI
 ```
 ---
 
