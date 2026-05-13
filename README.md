@@ -98,9 +98,10 @@ Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 
 # 1.기본 작동 화면
 
+<img width="700" height="643" alt="Honeycam 2026-05-13 16-02-38" src="https://github.com/user-attachments/assets/a4cd9eee-67ca-4bb5-8374-4031b9d87edb" />
+
 <img width="700" height="643" alt="Honeycam 2026-05-13 16-03-17" src="https://github.com/user-attachments/assets/307a2d5a-54c7-4f57-aae0-94ac4bccb62b" />
 
-<img width="700" height="643" alt="Honeycam 2026-05-13 16-02-38" src="https://github.com/user-attachments/assets/a4cd9eee-67ca-4bb5-8374-4031b9d87edb" />
 
 
 
