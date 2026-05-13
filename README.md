@@ -14,17 +14,13 @@ D-Care는 당뇨 관리가 필요한 반려견들을 위한 스마트 인슐린 
 
 # 🛠 기술 스택
 
-•
-Language: Java 11+
+•**Language**: Java 11+
 
-•
-UI Framework: Java Swing (GUI), Console (CLI)
+•**UI Framework**: Java Swing (GUI), Console (CLI)
 
-•
-Data Storage: Text-based File System (dogs.txt, history.txt)
+•**Data Storage**: Text-based File System (dogs.txt, history.txt)
 
-•
-Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
+•**Architecture**: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 
 
 
