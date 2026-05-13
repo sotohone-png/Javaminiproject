@@ -106,8 +106,6 @@ Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 
 
 # 2.오류 발생 화면
-### 2. 오류 발생 화면
-
 
  <img width="700" height="643" alt="Honeycam 2026-05-13 16-06-48" src="https://github.com/user-attachments/assets/5c164387-d001-411f-aa55-a9acdd4abf29" /> 
 
