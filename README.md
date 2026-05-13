@@ -1,20 +1,20 @@
-🐾 D-Care: 스마트 다견 관리 시스템
+# 🐾 D-Care: 스마트 다견 관리 시스템
 
 D-Care는 당뇨 관리가 필요한 반려견들을 위한 스마트 인슐린 투여 관리 솔루션입니다. 다견 가정에서도 효율적으로 반려견별 투여 기록을 관리하고 통계를 확인할 수 있도록 설계되었습니다.
 
-🚀 프로젝트 개요
+# 🚀 프로젝트 개요
 
 이 프로젝트는 반려견의 몸무게와 인슐린 종류에 따른 최적의 투여량을 계산하고, 투여 시간을 기록하여 체계적인 건강 관리를 돕습니다. JavaFX 기반의 현대적인 GUI 환경을 제공하여 사용자의 편의성을 극대화했습니다.
 
-🛠 기술 스택
+# 🛠 기술 스택
 
-Language: Java 11+
+-**Language**: Java 11+
 
-UI Framework: JavaFX (Modern GUI)
+-**UI Framework**: JavaFX (Modern GUI)
 
-Data Storage: Text-based File System (dogs.txt, history.txt)
+-**Data Storage**: Text-based File System (dogs.txt, history.txt)
 
-Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조 분리
+-**Architecture**: Service-Oriented Architecture (SOA) 스타일의 계층 구조 분리
 
 📑 시스템 주요 기능
 
