@@ -108,12 +108,13 @@ Architecture: Service-Oriented Architecture (SOA) 스타일의 계층 구조
 # 2.오류 발생 화면
 ### 2. 오류 발생 화면
 
-| 1. 인슐린 종류 선택 오류 | 2. 몸무게 입력 예외 처리 | 3. 주사 시간 예외 처리 |
+| 1. 인슐린 종류 선택 오류| 
 | :---: | :---: | :---: |
-| <img width="700" height="643" alt="Honeycam 2026-05-13 16-06-48" src="https://github.com/user-attachments/assets/5c164387-d001-411f-aa55-a9acdd4abf29" />
- | <img width="702" height="649" alt="Honeycam 2026-05-13 16-12-12" src="https://github.com/user-attachments/assets/d30e2e89-9a20-487d-be46-a5ba21d1255d" />
- | <img width="702" height="649" alt="Honeycam 2026-05-13 16-12-41" src="https://github.com/user-attachments/assets/6736a208-90ae-433c-a129-9147816a2024" />
- |
+| <img width="700" height="643" alt="Honeycam 2026-05-13 16-06-48" src="https://github.com/user-attachments/assets/5c164387-d001-411f-aa55-a9acdd4abf29" /> |
+| 2. 몸무게 입력 예외 처리|
+| <img width="702" height="649" alt="Honeycam 2026-05-13 16-12-12" src="https://github.com/user-attachments/assets/d30e2e89-9a20-487d-be46-a5ba21d1255d" /> |
+| 3. 주사 시간 예외 처리|
+| <img width="702" height="649" alt="Honeycam 2026-05-13 16-12-41" src="https://github.com/user-attachments/assets/6736a208-90ae-433c-a129-9147816a2024" /> |
 
 ---
 
